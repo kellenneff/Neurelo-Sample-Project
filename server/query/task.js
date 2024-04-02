@@ -21,15 +21,66 @@ async function getTaskById(id) {
             return {data: undefined, message: "Error fetching task by id"};
         }
     } catch (error) {
-        console.error("Error teching task by id:", error);
+        console.error("Error fetching task by id:", error);
         return {
             data: undefined, message: "Error fetching task by id"
         };
         }
     }
 
+async function createTask(data) {
+    try {
+        const res = await TaskApiService.createTask(
+            data?.name,
+            {
+               items: data?.items
+            },
+            undefined
+        );
+        if (res.data?.data) {
+            return {data: res.data?.data, message: 'Task created successfully'};
+        }
+        else {
+            return {data: undefined, message: "Error creating task"};
+        }
+    } catch (error) {
+        console.error("Error creating task:", error);
+    };
+}
+
+async function updateTask(data) {
+    try {
+        const res = await TaskApiService.updateTaskById(
+            data?.id,
+            {
+                name: data?.name,
+                items: data?.items
+            },
+            undefined
+        );
+        if (res.data?.data) {
+            return {
+                data: res.data?.data,
+                message: "Task updated successfully"
+            };
+        } else {
+            return{
+                data: undefined,
+                message: 'Error updating task'
+            }
+        };
+    } catch (error) {
+        console.error("Error updating task:", error);
+        return {
+            data: undefined,
+            message: 'Error updating task',
+        };
+    }
+} 
+
 
 module.exports = {
     getAllTasks,
-    getTaskById
+    getTaskById,
+    createTask
 }

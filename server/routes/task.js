@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { getAllTasks, getTaskById } = require('../query/task')
+const taskQuery = require('../query/task')
 
 router.get("/task/all", async function (req, res, next) {
     try {
-        const [tasks, error] = await getAllTasks();
+        const [tasks, error] = await taskQuery.getAllTasks();
 
         if (tasks) {
             res.json(tasks["data"]);
@@ -20,7 +20,7 @@ router.get('/task/:id', async function (req, res, next) {
     try {
         id = req.params.id;
         console.log(id)
-        const task = await getTaskById(id);
+        const task = await taskQuery.getTaskById(id);
         if (task) {
             console.log(task["data"]);
             res.json(task["data"]);
@@ -31,6 +31,18 @@ router.get('/task/:id', async function (req, res, next) {
         res.status(500).json({ message: error.message || "Error fetching tasks" });
     }
 });
+
+router.post('/task/create', async function (req, res, next) {
+    const data = await taskQuery.createTask(req.body);
+    res.json(data);
+})
+
+router.put('task/update/:id', async function (req, res, next) {
+    const data = await taskQuery.updatetas(req.body);
+    res.json(data);
+});
+
+
 
 module.exports = router;
 
