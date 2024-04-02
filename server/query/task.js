@@ -67,8 +67,8 @@ async function updateTask(data) {
             return{
                 data: undefined,
                 message: 'Error updating task'
-            }
-        };
+            };
+        }
     } catch (error) {
         console.error("Error updating task:", error);
         return {
@@ -79,8 +79,33 @@ async function updateTask(data) {
 } 
 
 
+async function deleteTask(id) {
+    try {
+        const res = await TaskApiService.deleteTaskById(id);
+        if (res.data?.data) {
+            return {
+                data: res.data?.data,
+                message: "Task deleted successfully"
+            };
+        } else {
+            return {
+                data: undefined,
+                message: 'Error deleting task'
+            };
+        }
+    } catch (error) {
+        console.error("Error updating task:", error);
+        return {
+            data: undefined,
+            message: "Error deleting task",
+        };
+    }
+}
+
 module.exports = {
     getAllTasks,
     getTaskById,
-    createTask
+    createTask,
+    updateTask,
+    deleteTask
 }
