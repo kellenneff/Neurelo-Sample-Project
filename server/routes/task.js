@@ -38,9 +38,14 @@ router.post('/task/create', async function (req, res, next) {
 })
 
 router.put('task/update/:id', async function (req, res, next) {
-    const data = await taskQuery.updatetas(req.body);
+    const data = await taskQuery.updateTask(req.body);
     res.json(data);
 });
+
+router.delete('task/delete/:id', async function (req, res, next) {
+    const data = await taskQuery.deleteTask(req.params.id);
+    res.json(data);
+})
 
 
 
